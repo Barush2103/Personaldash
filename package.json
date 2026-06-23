@@ -5,8 +5,9 @@
   "scripts": {
     "dev": "next dev",
     "postinstall": "prisma generate",
-    "build": "prisma db push && next build",
+    "build": "next build",
     "start": "next start",
+    "db:push": "prisma db push",
     "lint": "next lint"
   },
   "dependencies": {
