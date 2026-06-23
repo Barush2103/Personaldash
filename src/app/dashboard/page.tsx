@@ -121,8 +121,8 @@ function ProyectoForm({ initial, empresas, onSave, onClose }: { initial?: Proyec
 function TareaForm({ initial, empresas, proyectos, defaultEmpresaId, onSave, onClose }: { initial?: Tarea; empresas: Empresa[]; proyectos: Proyecto[]; defaultEmpresaId?: number; onSave: () => void; onClose: () => void }) {
   const [titulo, setTitulo] = useState(initial?.titulo || "");
   const [descripcion, setDescripcion] = useState(initial?.descripcion || "");
-  const [prioridad, setPrioridad] = useState(initial?.prioridad || "MEDIA");
-  const [estatus, setEstatus] = useState(initial?.estatus || "PENDIENTE");
+  const [prioridad, setPrioridad] = useState<"URGENTE"|"ALTA"|"MEDIA"|"BAJA">(initial?.prioridad || "MEDIA");
+  const [estatus, setEstatus] = useState<"PENDIENTE"|"EN_PROGRESO"|"COMPLETADA">(initial?.estatus || "PENDIENTE");
   const [fechaLimite, setFechaLimite] = useState(initial?.fechaLimite ? initial.fechaLimite.split("T")[0] : "");
   const [tiempoEstimado, setTiempoEstimado] = useState(initial?.tiempoEstimado?.toString() || "");
   const [solicitante, setSolicitante] = useState(initial?.solicitante || "");
@@ -159,12 +159,12 @@ function TareaForm({ initial, empresas, proyectos, defaultEmpresaId, onSave, onC
         </select>
       </Field>
       <Field label="Prioridad">
-        <select style={inputSt} value={prioridad} onChange={e=>setPrioridad(e.target.value)}>
+        <select style={inputSt} value={prioridad} onChange={e=>setPrioridad(e.target.value as "URGENTE"|"ALTA"|"MEDIA"|"BAJA")}>
           {Object.entries(PRIORIDAD_LABEL).map(([k,v]) => <option key={k} value={k}>{v}</option>)}
         </select>
       </Field>
       <Field label="Estatus">
-        <select style={inputSt} value={estatus} onChange={e=>setEstatus(e.target.value)}>
+        <select style={inputSt} value={estatus} onChange={e=>setEstatus(e.target.value as "PENDIENTE"|"EN_PROGRESO"|"COMPLETADA")}>
           {Object.entries(ESTATUS_LABEL).map(([k,v]) => <option key={k} value={k}>{v}</option>)}
         </select>
       </Field>
