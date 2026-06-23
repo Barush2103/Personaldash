@@ -393,7 +393,7 @@ export default function Dashboard() {
   const [vista, setVista] = useState<"lista"|"kanban"|"calendario"|"empresas"|"proyectos">("lista");
   const [filtroEmpresa, setFiltroEmpresa] = useState<number|null>(null);
   const [filtroProyecto, setFiltroProyecto] = useState<number|null>(null);
-  const [filtroPrioridad, setFiltroPrioridad] = useState<string|null>(null);
+  const [filtroPrioridad, setFiltroPrioridad] = useState<"URGENTE"|"ALTA"|"MEDIA"|"BAJA"|null>(null);
   const [modal, setModal] = useState<null|"empresa"|"proyecto"|"tarea">(null);
   const [editEmpresa, setEditEmpresa] = useState<Empresa|undefined>();
   const [editProyecto, setEditProyecto] = useState<Proyecto|undefined>();
@@ -547,7 +547,7 @@ export default function Dashboard() {
           {/* Filtros prioridad */}
           <div style={{ display:"flex",gap:4 }}>
             {["URGENTE","ALTA","MEDIA","BAJA"].map(p=>(
-              <button key={p} onClick={()=>setFiltroPrioridad(filtroPrioridad===p?null:p)} style={{ fontSize:11,padding:"3px 8px",borderRadius:20,border:"1px solid",borderColor:filtroPrioridad===p?PRIORIDAD_COLOR[p]:"#e5e5e3",background:filtroPrioridad===p?PRIORIDAD_BG[p]:"transparent",color:filtroPrioridad===p?PRIORIDAD_COLOR[p]:"#9b9b98",cursor:"pointer" }}>
+              <button key={p} onClick={()=>setFiltroPrioridad(filtroPrioridad===p?null:p as "URGENTE"|"ALTA"|"MEDIA"|"BAJA")} style={{ fontSize:11,padding:"3px 8px",borderRadius:20,border:"1px solid",borderColor:filtroPrioridad===p?PRIORIDAD_COLOR[p]:"#e5e5e3",background:filtroPrioridad===p?PRIORIDAD_BG[p]:"transparent",color:filtroPrioridad===p?PRIORIDAD_COLOR[p]:"#9b9b98",cursor:"pointer" }}>
                 {PRIORIDAD_LABEL[p]}
               </button>
             ))}
