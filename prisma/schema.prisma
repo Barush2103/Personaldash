@@ -1,6 +1,6 @@
 generator client {
-  provider      = "prisma-client-js"
-  output        = "../node_modules/.prisma/client"
+  provider = "prisma-client-js"
+  output   = "../node_modules/.prisma/client"
 }
 
 datasource db {
@@ -9,10 +9,53 @@ datasource db {
   directUrl = env("DIRECT_URL")
 }
 
-model User {
-  id        Int      @id @default(autoincrement())
-  email     String   @unique
-  name      String?
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+model Empresa {
+  id        Int        @id @default(autoincrement())
+  nombre    String
+  color     String     @default("#6366f1")
+  proyectos Proyecto[]
+  tareas    Tarea[]
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+}
+
+model Proyecto {
+  id          Int      @id @default(autoincrement())
+  nombre      String
+  descripcion String?
+  empresaId   Int
+  empresa     Empresa  @relation(fields: [empresaId], references: [id], onDelete: Cascade)
+  tareas      Tarea[]
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Tarea {
+  id            Int       @id @default(autoincrement())
+  titulo        String
+  descripcion   String?
+  prioridad     Prioridad @default(MEDIA)
+  estatus       Estatus   @default(PENDIENTE)
+  fechaLimite   DateTime?
+  tiempoEstimado Float?
+  solicitante   String?
+  empresaId     Int
+  empresa       Empresa   @relation(fields: [empresaId], references: [id], onDelete: Cascade)
+  proyectoId    Int?
+  proyecto      Proyecto? @relation(fields: [proyectoId], references: [id], onDelete: SetNull)
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+}
+
+enum Prioridad {
+  URGENTE
+  ALTA
+  MEDIA
+  BAJA
+}
+
+enum Estatus {
+  PENDIENTE
+  EN_PROGRESO
+  COMPLETADA
 }
